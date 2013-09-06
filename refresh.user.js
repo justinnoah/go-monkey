@@ -7,13 +7,38 @@
 //
 // ==/UserScript==
 
+// Easy add CSS function
+// Credit: http://greasemonkey.win-start.de/patterns/add-css.html
+function addGlobalStyle(css) {
+    var head, style;
+    head = document.getElementsByTagName('head')[0];
+    if (!head) { return; }
+    style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = css;
+    head.appendChild(style);
+}
+
+var timerCSS = "#timerText {\
+    background: #6688AA;\
+    border-width: 5px;\
+    border-color: #7799BB;\
+    color: white;\
+    top: 0;\
+    left: 40%;\
+    position: fixed;\
+}";
+
+addGlobalStyle(timerCSS);
+
 // Initial Timer setting, eventually this should be changeable
 var refreshTime = 5;
 
 // Simple element for adding our timing text
-var timerDisplay = document.createElement('p');
-timerDisplay.textContent = "Refresh in " + refreshTime + " second(s)";
-$("td.maincontent form p").append(timerDisplay);
+var timerText = document.createElement('div');
+timerText.textContent = "Refresh in " + refreshTime + " second(s)";
+timerText.id = "timerText";
+$("html").append(timerText);
 
 // Simulate the clicking of the "Update list" button
 function clickUpdate() {
@@ -34,7 +59,7 @@ function refreshTimer() {
         clearInterval(timer);
         clickUpdate();
     }
-    timerDisplay.textContent = "Refresh in " + refreshTime + " second(s)";
+    timerText.textContent = "Refresh in " + refreshTime + " second(s)";
     refreshTime = refreshTime - 1;
 }
 
