@@ -7,38 +7,11 @@
 //
 // ==/UserScript==
 
-// Easy add CSS function
-// Credit: http://greasemonkey.win-start.de/patterns/add-css.html
-function addGlobalStyle(css) {
-    var head, style;
-    head = document.getElementsByTagName('head')[0];
-    if (!head) { return; }
-    style = document.createElement('style');
-    style.type = 'text/css';
-    style.innerHTML = css;
-    head.appendChild(style);
-}
-
-var timerCSS = "#timerText {\
-    background: #6688AA;\
-    border-width: 5px;\
-    border-color: #7799BB;\
-    color: white;\
-    top: 0;\
-    left: 40%;\
-    position: fixed;\
-}";
-
-addGlobalStyle(timerCSS);
-
 // Initial Timer setting, eventually this should be changeable
 var refreshTime = 5;
 
-// Simple element for adding our timing text
-var timerText = document.createElement('div');
-timerText.textContent = "Refresh in " + refreshTime + " second(s)";
-timerText.id = "timerText";
-$("html").append(timerText);
+// Element to add the timer text
+var elem = $("table.maincontent tbody tr td.maincontent h1");
 
 // Simulate the clicking of the "Update list" button
 function clickUpdate() {
@@ -55,11 +28,15 @@ function clickUpdate() {
 
 // Update the timer text and 'click' the button when the time runs out
 function refreshTimer() {
+    // Clear and click once time runs out
     if (refreshTime <= 0) {
         clearInterval(timer);
         clickUpdate();
     }
-    timerText.textContent = "Refresh in " + refreshTime + " second(s)";
+    // else update the display
+    var myGamesText = "My Games - refresh in " + refreshTime + " second(s)";
+
+    elem.text(myGamesText);
     refreshTime = refreshTime - 1;
 }
 
