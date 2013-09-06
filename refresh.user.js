@@ -7,12 +7,15 @@
 //
 // ==/UserScript==
 
+// Initial Timer setting, eventually this should be changeable
 var refreshTime = 5;
 
+// Simple element for adding our timing text
 var timerDisplay = document.createElement('p');
 timerDisplay.textContent = "Refresh in " + refreshTime + " second(s)";
 $("td.maincontent form p").append(timerDisplay);
 
+// Simulate the clicking of the "Update list" button
 function clickUpdate() {
     var inputs = document.getElementsByTagName("input");
 
@@ -25,6 +28,7 @@ function clickUpdate() {
     }
 }
 
+// Update the timer text and 'click' the button when the time runs out
 function refreshTimer() {
     if (refreshTime <= 0) {
         clearInterval(timer);
@@ -34,4 +38,5 @@ function refreshTimer() {
     refreshTime = refreshTime - 1;
 }
 
+// Start our time interval
 var timer = setInterval(refreshTimer, 1000);
